@@ -38,3 +38,18 @@ ACKEE_IGNORED_PATHS = [
 ```
 
 Remember to change the server and domain ID to your values.
+
+## Development
+
+This project is using [`pipenv`](https://pipenv.pypa.io/en/latest/) to manage the development dependencies. To install them run:
+
+```
+$ pipenv install
+```
+
+### Publishing
+
+There are two `pipenv` scripts that make building and publishing the package easier:
+
+* `pipenv run build` - builds the distribution package
+* `pipenv run upload` - uploads the package to PyPI

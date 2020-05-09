@@ -6,6 +6,9 @@ verify_ssl = true
 [dev-packages]
 tox = "*"
 black = "*"
+setuptools = "*"
+wheel = "*"
+twine = "*"
 
 [packages]
 
@@ -14,3 +17,7 @@ python_version = "3.7"
 
 [pipenv]
 allow_prereleases = true
+
+[scripts]
+build = "python setup.py sdist bdist_wheel"
+upload = "python -m twine upload dist/*"
