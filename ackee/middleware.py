@@ -13,10 +13,8 @@ class TrackerMiddleware(MiddlewareMixin):
     def _send(self, data):
         url = f"{settings.ACKEE_SERVER}/domains/{settings.ACKEE_DOMAIN_ID}/records"
         response = requests.post(url, json=data)
-        print(response.status_code)
-        print(response.text)
 
-    def _parse_accept_language(self, accept_language):
+    def _parse_accept_language(self, accept_language=""):
         """Parse and sort the Accept-Language header
         Taken from https://siongui.github.io/2012/10/11/python-parse-accept-language-in-http-request-header/
 
@@ -28,6 +26,9 @@ class TrackerMiddleware(MiddlewareMixin):
         """
         languages = accept_language.split(",")
         locale_q_pairs = []
+
+        if len(languages) == 1 and languages[0] == "":
+            return []
 
         for language in languages:
             if language.split(";")[0] == language:
@@ -58,7 +59,6 @@ class TrackerMiddleware(MiddlewareMixin):
             return
 
         if self._is_ignored_path(request.get_full_path()):
-            print(f"> IGNORED {request.get_full_path()}")
             return
 
         user_agent = parse(request.headers.get("User-Agent", ""))
@@ -76,7 +76,7 @@ class TrackerMiddleware(MiddlewareMixin):
             "browserName": user_agent.browser.family,
             "browserVersion": user_agent.browser.version_string,
         }
-        print(data)
+
         try:
             self._send(data)
         finally:
