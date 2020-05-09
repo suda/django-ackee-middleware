@@ -2,17 +2,28 @@ import requests
 import re
 from user_agents import parse
 from functools import reduce
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.deprecation import MiddlewareMixin
 from django.conf import settings
 
 
 class TrackerMiddleware(MiddlewareMixin):
     def __init__(self, get_response):
+        if not hasattr(settings, "ACKEE_SERVER"):
+            raise ImproperlyConfigured("Please set ACKEE_SERVER in settings")
+        if not hasattr(settings, "ACKEE_DOMAIN_ID"):
+            raise ImproperlyConfigured("Please set ACKEE_DOMAIN_ID in settings")
+        if not hasattr(settings, "ACKEE_IGNORED_PATHS"):
+            raise ImproperlyConfigured("Please set ACKEE_IGNORED_PATHS in settings")
         self.get_response = get_response
 
     def _send(self, data):
         url = f"{settings.ACKEE_SERVER}/domains/{settings.ACKEE_DOMAIN_ID}/records"
         response = requests.post(url, json=data)
+        if response.status_code == 202:
+            return response.json()
+        else:
+            raise Exception(response.text)
 
     def _parse_accept_language(self, accept_language=""):
         """Parse and sort the Accept-Language header
@@ -79,5 +90,5 @@ class TrackerMiddleware(MiddlewareMixin):
 
         try:
             self._send(data)
-        finally:
+        except:
             pass

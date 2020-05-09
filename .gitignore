@@ -3,3 +3,5 @@ __pycache__
 .tox
 .coverage
 coverage.xml
+.pytest_cache
+.vscode
