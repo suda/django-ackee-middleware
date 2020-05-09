@@ -1,1 +1,1 @@
-# django-ackee-middleware
+# django-ackee-middleware ![CI](https://github.com/suda/django-ackee-middleware/workflows/CI/badge.svg)
