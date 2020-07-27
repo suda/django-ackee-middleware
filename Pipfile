@@ -9,8 +9,11 @@ black = "*"
 setuptools = "*"
 wheel = "*"
 twine = "*"
+pytest = "*"
+django = "*"
 
 [packages]
+user-agents = "*"
 
 [requires]
 python_version = "3.7"
