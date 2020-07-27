@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="django-ackee-middleware",
-    version="0.1.0",
+    version="0.1.1",
     author="Wojtek Siudzinski",
     author_email="admin@suda.pl",
     description="Django middleware reporting requests to Ackee",
