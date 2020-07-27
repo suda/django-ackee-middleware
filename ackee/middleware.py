@@ -35,6 +35,9 @@ class TrackerMiddleware(MiddlewareMixin):
         Returns:
             list -- A list of touples containing pairs of language and its priority
         """
+        if accept_language is None:
+            return []
+
         languages = accept_language.split(",")
         locale_q_pairs = []
 

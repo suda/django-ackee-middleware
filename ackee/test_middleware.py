@@ -69,6 +69,7 @@ class TestMiddleware:
                 ("en", "0.8"),
             ]
             assert tracker._parse_accept_language() == []
+            assert tracker._parse_accept_language(None) == []
 
     class TestSanitizing:
         @override_settings(**default_settings)
